@@ -368,7 +368,7 @@ function addUser(nome, sobrenome, login, senha, email, preco, crp, genre, date, 
 
     // Salva o novo banco de dados com o novo usuário no localStorage
     localStorage.setItem('db_psico', JSON.stringify(db_psico));
-    window.location.href = '../template/index.html';
+    window.location.href = '../index.html';
 }
 
 // Inicializa as estruturas utilizadas pelo LoginApp

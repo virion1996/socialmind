@@ -368,7 +368,7 @@ function addUser(nome, sobrenome, login, senha, email, preco, crp, genre, date, 
 
     // Salva o novo banco de dados com o novo usuário no localStorage
     localStorage.setItem('db_psico', JSON.stringify(db_psico));
-    window.location.href = 'https://virion1996.github.io/socialmind/';
+    window.location.href = 'https://virion1996.github.io/socialmind/index.html';
 }
 
 // Inicializa as estruturas utilizadas pelo LoginApp

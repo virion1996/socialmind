@@ -1,0 +1,268 @@
+body, img, h1, div, p, section
+{
+    font-family: sans-serif;
+    padding: 0; 
+    margin: 0;
+}
+
+#dash
+{
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+
+#sidebar
+{
+    background-color: #E4E6EC;
+    position: relative;
+    height: 100vh;
+    width: 432px;
+}
+
+#sidebar_userpanel
+{
+    background-color: #EFEFEF;
+    height: 24%;  
+    width: 100%; 
+}
+
+#sidebar_usercontext
+{
+    /* background-color: red; */ /*test*/
+    height: 128px;
+    display: flex;
+    position: relative;
+    padding-left: 28px;
+    top: 45%;
+    transform: translateY(-50%);
+}
+
+#sidebar_photoframe
+{
+    height: 128px;
+    width: 128px;
+    border-radius: 100px;
+    background-color: #1986C0;
+}
+
+#sidebar_avatar
+{
+    width: 60%;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#sidebar_userphoto
+{
+    width:100%;
+    border-radius: 100%;
+    position: relative;
+}
+
+#sidebar_textbox
+{
+    /* background-color: aqua; */ /*test*/
+    position: relative;
+    height: 128px;
+    width: calc(100% - 128px);
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 20px;
+    line-height: 1;
+    
+}
+
+#sidebar_username
+{
+    /* background-color: purple; */ /*test*/
+    font-size: 1.6rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+#sidebar_userstatus
+{
+    background-color: #E4E6EC;
+    border-radius: 20px;
+    display: flex;
+    font-size: 1.3rem;
+    padding-left: 8px;
+    height: 20px;
+    width: 160px;
+    color: #464658;
+}
+
+#sidebar_statusicon
+{
+    height: 15px;
+    width: 15px;
+    border-radius: 100px;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #808080; /*20ff20*/
+    margin-right: 5px;
+}
+
+#sidebar_message
+{
+    /* background-color: green; */ /*test*/
+    max-height: 50%;
+    margin-bottom: 5px;
+    margin-right: 20px;
+    position: absolute;
+    overflow: hidden;
+    bottom: 0;
+    font-size: 1.3rem;
+    text-align: left;
+}
+
+#sidebar_line
+{
+    height: 4px;
+    width: 100%;   
+    background-color: #1986C0;
+}
+
+#sidebar_notifications
+{
+    height: 42%;
+    margin-top: 30px;
+    margin-left: 28px;
+    margin-right: 28px;
+    /* background-color: grey; */
+}
+
+#sidebar_notifytitle
+{
+    font-size: 32px;
+    /* background-color: purple; */
+    height: 32px;
+    margin: 0;
+    margin-bottom: 16px;
+    font-weight: bold;
+    color: #1986C0;
+}
+
+#sidebar_notifycontainer
+{
+    height: calc(100% - 48px);
+    background-color: #EFEFEF;
+    padding: 5px;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.msgcard
+{
+    
+    background-color: #E4E6EC;
+    border-radius: 12px;
+    position: relative;
+    margin-top: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-bottom: 10px;
+    height: 106px;
+}
+
+.msgcard_context
+{
+    display: flex;
+    width: 340px;
+    margin: auto;
+    top: 50%;
+    transform: translateY(-50%);
+    position: relative;
+    /* background-color: greenyellow; */
+}
+
+.msgcard_imageframe
+{
+    height: 80px;
+    width: 80px;
+    border-radius: 100%;
+    background-color: #1986C0;
+    margin-right: 5px;
+}
+
+.msgcard_imageframe>img
+{
+    width: 60%;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.msgcard_textbox
+{
+    width: 260px;
+    /* background-color: red; */
+}
+
+#sidebar_controlbuttons
+{
+    /* background-color: purple; */
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    
+    margin-bottom: 20px;
+    padding-left: 28px;
+    padding-right: 28px;
+}
+
+.sidebar_btn
+{
+    height: 68px;
+    width: 100%;
+    margin-bottom: 16px;
+    border-style: none;
+    border-radius: 16px;
+}
+
+.sidebar_btn> span
+{
+    font-size: 32px;
+    font-weight: bold;
+}
+
+#sidebar_options
+{
+    background-color: #1986C0;
+}
+
+#sidebar_logout
+{
+    border-style: solid;
+    border-width: 5px;
+    border-color: #FF6264;
+    background-color: #E4E6EC;
+}
+
+#sidebar_options> span
+{
+    color: white;
+}
+
+#sidebar_logout> span
+{
+    color: #FF6264;
+}
+
+#content
+{
+    width: 100%;
+}
+
+#users_dropdown
+{
+    background-color: white;
+    width: 100px;
+    left: 50%;
+    top: 50%;
+}

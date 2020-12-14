@@ -4,6 +4,12 @@ body {
 }
 
 #div_calendario {
-    margin: 20px 200px;
-    
+    margin: 20px 200px; 
+}
+
+@media screen and (min-width: 0px) and (max-width: 767px)
+{
+    #div_calendario {
+        margin: 0; 
+    }
 }

@@ -1,79 +1,57 @@
-var db_contatos_inicial = {
-    reg: [
+const dadosIniciais = {
+    "data": [
         {
-            id: 1,
-            nome: "Leanne",
-            sobrenome: "Graham",
-            cep: "51346587",
-            anonimato: "Sim",
-            email: "Sincere@april.biz",
-            celular: "1-770-736-8031",
-            sobre: "hildegard.org",
-            valor: "gratuito",
-            senha: "Leanne",
+            "id": 1,
+            "nome": "Leanne",
+            "sobrenome": "Graham",
+            "cep": "51346587",
+            "anonimato": "Sim",
+            "email": "Sincere@april.biz",
+            "celular": "1-770-736-8031",
+            "sobre": "hildegard.org",
+            "sobre_job": "hildegard.org",
+            "valor": "gratuito",
+            "senha": "Leanne",
+            "status": 0
         },
         {
-            id: 2,
-            nome: "Ervin",
-            sobrenome: "Howell",
-            cep: "13468572",
-            anonimato: "Não",
-            email: "Shanna@melissa.tv",
-            celular: "010-692-6593",
-            sobre: "anastasia.net",
-            valor: "gratuito",
-            senha: "Ervin",
+            "id": 2,
+            "nome": "Ervin",
+            "sobrenome": "Howell",
+            "cep": "13468572",
+            "anonimato": "Não",
+            "email": "Shanna@melissa.tv",
+            "celular": "010-692-6593",
+            "sobre": "anastasia.net",
+            "sobre_job": "anastasia.net",
+            "valor": "gratuito",
+            "senha": "Ervin",
+            "status": 0
         },
         {
-            id: 3,
-            nome: "Clementine",
-            sobrenome: "Bauch",
-            cep: "12345678",
-            anonimato: "Não",
-            email: "Nathan@yesenia.net",
-            celular: "1-463-123-4447",
-            sobre: "ramiro.info",
-            valor: "gratuito",
-            senha: "Clementine",
-        }
+            "id": 3,
+            "nome": "Clementine",
+            "sobrenome": "Bauch",
+            "cep": "12345678",
+            "anonimato": "Não",
+            "email": "Nathan@yesenia.net",
+            "celular": "1-463-123-4447",
+            "sobre": "ramiro.info",
+            "sobre_job": "ramiro.info",
+            "valor": "gratuito",
+            "senha": "Clementine",
+            "status": 0
+        },
     ]
 }
 
-var db_dashdata_inical = {
-    data:[
-        {
-            id: 1,
-            photo: "/user_imgs/userphoto-1.jpeg",
-            status: "1",
-            message: "Quem diria que um dia teria novos motivos pra sorrir!"
-        },
-        {
-            id: 2,
-            photo: "/user_imgs/userphoto-2.jpeg",
-            status: "2",
-            message: "Estou o dia inteiro ocupada."
-        },
-        {
-            id: 3,
-            photo: "/user_imgs/userphoto-3.jpeg",
-            status: "3",
-            message: "A espera de um recomeço em minha vida."
-        }
-    ]
-}
-
-/* var db_notificacoes_inicial = {
-    usernotify:[
-        {
-
-        }
-    ]
-} */
+const usertest = '{"id": 1,"tipo": 1, "nome": "Igor","sobrenome": "de Castro","foto": "null","cep": "51346587","anonimato": "Sim","email": "Sincere@april.biz","celular": "31 992221287","sobre": "Usuário de testes","valor": "gratuito","senha": "teste123","status": 2,"recado": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa nam, nulla animi consectetur?"}';
 
 // objeto do banco de dados de users em json
-var db_userreg = {};
+var user
+/* var db_userreg = {};
 var db_userdata= {};
-var drop_reference= [];
+var drop_reference= []; */
 
 initLoginApp();
 
@@ -81,94 +59,189 @@ initLoginApp();
 
 function initLoginApp() {
     
-    userJSON = sessionStorage.getItem('usuarioCorrente');
-    if (userJSON)
+    /* sessionStorage.removeItem('usuarioCorrente'); */
+    let aux = sessionStorage.getItem('usuarioCorrente');
+    
+    if (aux)
     {
-        user = JSON.parse(usuarioCorrenteJSON);
+        user = JSON.parse(aux);
+        /* console.log("get"); */
     }
-
-        db_userreg = db_contatos_inicial;
-        db_userdata= db_dashdata_inical;
-        localStorage.setItem('db_userreg', JSON.stringify(db_contatos_inicial));
-        localStorage.setItem('db_userdata', JSON.stringify(db_dashdata_inical));    
+    else
+    {
+        user = JSON.parse(usertest);
+        sessionStorage.setItem('usuarioCorrente', usertest);
+        /* console.log("set"); */
+    }
 };
 
-onload = () =>
+function saveUser()
 {
-    setDropdownUsers();
-    setDropsEvent();
+    sessionStorage.setItem('usuarioCorrente', JSON.stringify(user));
 }
 
-function setDropdownUsers()
+function setSidebar()
 {
-    for(let i=0; i< db_userreg.reg.length; i++)
-    {
-        document.getElementById('users_dropdown-menu').innerHTML += 
-        '<a id="user_'+db_userreg.reg[i].id+'" class="dropdown-item" href="#">'+db_userreg.reg[i].nome+'</a>';
+    setName();
+    setStatus();
+    toggleControlOnResize();
+    //setContent();
+}
 
-        drop_reference[i]= db_userreg.reg[i].id;
+function setName()
+{
+    $("#sidebar_username").html(user.nome+' '+user.sobrenome);
+    resizeUsername();
+    $("#sidebar_message").html("\""+user.recado+"\"");
+}
+
+function resizeUsername()
+{
+    let fontsize= 22;
+    let aux= fontsize;
+
+    if($(document).width()<= 400)
+    {
+        fontsize= 18;
+    }
+
+    while($("#sidebar_username").height()> fontsize)
+    {
+        aux-= 1;
+        $("#sidebar_username").css("font-size", aux);
+    }
+
+    while($("#sidebar_username").height()< fontsize)
+    {
+        aux+= 1;
+        $("#sidebar_username").css("font-size", aux);
     }
 }
 
-/*
-    Seleciona os elementos do menu dropdown e designa uma função
-    de procupar pelo usuário toda vez que algum item for clicado
-*/
-function setDropsEvent()
+function setStatus()
 {
-    let p= document.querySelectorAll('#users_dropdown-menu> a');
-    p.forEach((item, index) => (item.onclick= ()=> getUser(index)));
+    if(user.status== 0)
+    {
+        $("#sidebar_statusinfo").html(
+            `<i id="sidebar_statusicon" class="fas fa-check-circle"></i>
+            <p id="sidebar_statustext">Online</p>`
+        );
+        $("#sidebar_statusinfo>i").css("color","rgb(0, 200, 0)");
+    }
+    else if(user.status== 1)
+    {
+        $("#sidebar_statusinfo").html(
+            `<i id="sidebar_statusicon" class="fas fa-minus-circle"></i>
+            <p id="sidebar_statustext">Ocupado</p>`
+        );
+        $("#sidebar_statusinfo>i").css("color","rgb(230, 0, 0)");
+    }
+    else if(user.status== 2)
+    {
+        $("#sidebar_statusinfo").html(
+            `<i id="sidebar_statusicon" class="fas fa-times-circle"></i>
+            <p id="sidebar_statustext">Offline</p>`
+        );
+        $("#sidebar_statusinfo>i").css("color","rgb(80, 80, 80)");
+    }
+    else
+    {
+        throw new Exception("Impossível determinar status!");
+    }
 }
 
-/*
-    Procura o usuário comparando o id da referência com a id no vetor
-    data e salva os dados do usuário na variável usuário corrente;
-*/
-function getUser(index)
+function toggleControlOnResize()
 {
-    let user_reg;
-    let user_data;
-
-    for(let i=0; i< db_userreg.reg.length; i++)
+    if($(document).width()<767)
     {
-        if(db_userreg.reg[i].id== drop_reference[index])
-        {
-            user_reg= db_userreg.reg[i];
-            user_data= db_userdata.data[i];
-            break;
-        }
+        $("#sidebar_options").html(`<i class="fas fa-cog"></i>`);
+        $("#sidebar_logout").html(`<i class="fas fa-sign-out-alt"></i>`);
     }
-    setUserPanel(user_reg, user_data);
+    else
+    {
+        $("#sidebar_options").html(`<p>Opções</p>`);
+        $("#sidebar_logout").html(`<p>Sair</p>`);
+    }
 }
 
-function setUserPanel(user, data)
-{
-    if(document.querySelector('#sidebar_avatar'))
-    {
-        sidebar_avatar.remove();
-    }
 
-    sidebar_photoframe.innerHTML= '<img id="sidebar_userphoto" src="'+data.photo+'" alt="user_photo">';
-    sidebar_username.innerHTML= user.nome+' '+user.sobrenome;
-    sidebar_message.innerHTML= '\"'+data.message+'\"';
-    setStatus(data.status);
-}
-
-function setStatus(status)
+/*function setContent()
 {
-    if(status== 1)
+    if(user.tipo= 0)
     {
-        sidebar_statusicon.style.backgroundColor = "#20ff20";
-        sidebar_statustext.innerHTML= "Online";
+        $("#content-context").html(
+            `<button id="searchpsy" class="menu-btn">
+            <i class="fas fa-search"></i>
+            <p>Procurar indicações</p>
+        </button>
+
+        <button id="mypsy" class="menu-btn">
+            <i class="fas fa-hand-holding-medical"></i>
+            <p>Meus Psicólogos</p>
+        </button>`
+        )
     }
-    else if(status== 2)
+    else if(user.tipo= 1)
     {
-        sidebar_statusicon.style.backgroundColor = "#fc3d03";
-        sidebar_statustext.innerHTML= "Não pertubar";
+        $("#content-context").html(
+            `<button id="s" class="menu-btn">
+            <i class="fas fa-calendar-check"></i>
+            <p>Verificar solicitações</p>
+        </button>
+
+        <button id="mypat" class="menu-btn">
+            <i class="fas fa-users"></i>
+            <p>Meus Pacientes</p>
+        </button>`
+        )
     }
-    else if(status== 3)
+    else
     {
-        sidebar_statusicon.style.backgroundColor = "#808080";
-        sidebar_statustext.innerHTML= "Offline";
+        throw new Exception("Impossível determinar o usuário!");
     }
-}
+}*/
+
+$("#sidebar_statusbar").on("click",
+    function()
+    {
+        $("#sidebar_statusmenu").css("display","block");
+        $("#sidebar_statusmenu").focus();
+    }
+)
+
+$("#sidebar_statusmenu>ul li").each(
+    function(i)
+    {
+        $(this).click(
+            function()
+            {
+                user.status= i;
+                console.log(i);
+                setStatus();
+                saveUser();
+            }
+        )
+    }
+)
+
+$(window).resize(resizeUsername)
+
+$(window).resize(toggleControlOnResize)
+
+$(document).click(
+    function(evt)
+    {
+        if(!(evt.target.id == "sidebar_userstatus" || evt.target.id == "sidebar_statusbar" ||
+            evt.target.id == "sidebar_statusinfo" || evt.target.id == "sidebar_statusicon" ||
+                evt.target.id == "sidebar_statustext" || evt.target.id == "sidebar_selectarrow"))
+        $("#sidebar_statusmenu").css("display","none");
+    }
+)
+
+$(document).ready(
+    function()
+    {
+        if(user)
+        setSidebar();
+    }    
+)

@@ -484,7 +484,7 @@
             // Valida login e se estiver ok, redireciona para tela inicial da aplicação
             resultadoLogin = loginUser(email, password)
             if (resultadoLogin) {
-                window.location.href = '../html/Dash.html';
+                window.location.href = '../html/Dash_paciente.html';
             }
             else { // Se login falhou, avisa ao usuário
                 alert('Usuário ou senha incorretos');
@@ -510,7 +510,7 @@
 
             resultadoLogin = loginPsico(email_psico, password_psico);
             if (resultadoLogin) {
-                window.location.href = '../html/Dash.html';
+                window.location.href = '../html/Dash_psicologo.html';
             }
             else { // Se login falhou, avisa ao usuário
                 alert('Usuário ou senha incorretos');

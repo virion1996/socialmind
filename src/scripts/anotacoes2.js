@@ -1,4 +1,4 @@
-function leDados() {
+/* function leDados() {
     let strDados = localStorage.getItem('db');
     let objDados = {};
 
@@ -45,15 +45,62 @@ function leDados() {
     }
 
     return objDados;
+} */
+var db_psico = {};
+
+var usuarioCorrente = {};
+
+var db_json = localStorage.getItem('db_psico');
+var db_json_ss = sessionStorage.getItem('usuarioCorrente');
+if (db_json_ss) {
+    usuarioCorrente = JSON.parse(db_json_ss);
 }
 
-function salvaDados(dados) {
-    localStorage.setItem('db', JSON.stringify(dados));
+if (!db_json) {
+    db_json = db_contatos_inicial;
+    alert("Adicionado ao local Storage vários usuários.");
+    localStorage.setItem('db_psico', JSON.stringify(dadosIniciais));
+}
+else {
+    db_psico = JSON.parse(db_json);
+}
+
+console.log(db_psico);
+
+//pega o valor do ID do usuario selecionado
+var user_id = usuarioCorrente.id;
+
+//acha o index no banco de dados cujo ID é o do usuario selecionado
+let user_dados_index = db_psico.data.findIndex(x => x.id == user_id);
+
+/* const dadosIniciais = {
+    "data": [
+        {
+            "id": 1,
+            "nome": "Leanne",
+            "sobrenome": "Graham",
+            "cep": "51346587",
+            "anonimato": "Sim",
+            "email": "Sincere@april.biz",
+            "celular": "1-770-736-8031",
+            "sobre": "hildegard.org",
+            "sobre_job": "hildegard.org",
+            "valor": "gratuito",
+            "senha": "Leanne",
+            "status": "",
+            "anotacoes": []
+        }
+    ]
+} */
+
+
+function salvaDados() {
+    localStorage.setItem('db_psico', JSON.stringify(db_psico));
+    sessionStorage.setItem('usuarioCorrente', JSON.stringify(usuarioCorrente));
 }
 
 function incluirContato() {
     // Ler os dados do localStorage
-    let objDados = leDados();
 
     // Incluir um novo contato
     let strNome = document.getElementById('campoNome').value;
@@ -68,10 +115,11 @@ function incluirContato() {
         motivos: strMotivos,
         observacoes: strObservacoes
     };
-    objDados.contatos.push(novoContato);
+    usuarioCorrente.anotacao.push(novoContato);
+    db_psico.data[user_dados_index].anotacao.push(novoContato);
 
     // Salvar os dados no localStorage novamente
-    salvaDados(objDados);
+    salvaDados();
 
     // Atualiza os dados da tela
     imprimeDados();
@@ -80,14 +128,14 @@ function incluirContato() {
 function imprimeDados() {
     let tela = document.getElementById('tela');
     let strHtml = '';
-    let objDados = leDados();
+    let objDados = usuarioCorrente.anotacao;
 
-    for (i = 0; i < objDados.contatos.length; i++) {
-        strHtml += `<p> Nome: ${objDados.contatos[i].nome}
-         <br> Data da consulta: ${objDados.contatos[i].data} 
-         <br> Trabalho: ${objDados.contatos[i].trabalho} 
-         <br> Motivos: ${objDados.contatos[i].motivos} 
-         <br> Observação ${objDados.contatos[i].observacoes}</p>`
+    for (i = 0; i < objDados.length; i++) {
+        strHtml += `<p> Nome: ${objDados[i].nome}
+         <br> Data da consulta: ${objDados[i].data} 
+         <br> Trabalho: ${objDados[i].trabalho} 
+         <br> Motivos: ${objDados[i].motivos} 
+         <br> Observação ${objDados[i].observacoes}</p>`
     }
 
 

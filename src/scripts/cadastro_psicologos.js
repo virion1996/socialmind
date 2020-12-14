@@ -361,7 +361,8 @@ function addUser(nome, sobrenome, login, senha, email, preco, crp, genre, date, 
         "sobre": about,
         "status": "",
         "sobre_job": aboutjob,
-        "calendario": [ ]
+        "calendario": [ ],
+        "anotacao": [ ]
     };
 
     // Inclui o novo usuario no banco de dados baseado em JSON

@@ -36,8 +36,12 @@
         document.getElementById(0).innerText = userSolic();
         document.getElementById(3).innerText = userSobreSolic();
           
-          
-          bt1.onclick = ()=>
+          conx1.onclick = () =>{
+              IgorTeAmoS2(1);
+              } 
+
+
+          bot1.onclick = ()=>
           {
             aceitarCox(0);
             document.getElementById(0).innerText = "Aguarde para novas solicitações";
@@ -71,6 +75,9 @@
                 <li id="conx3" class="list-group-item">Sem conexão</li>
               </ul>
             </div>
+            <div class="row">
+              <a id="a_btn_back" href="Dash_psicologo.html"><button type="button" class="btn btn-secondary btn_save" id="btn_back">Retornar</button></a>
+          </div>
           </div>
 
           <div class="card col-sm-12 col-lg-6" style="align-items: center;">

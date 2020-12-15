@@ -11,7 +11,10 @@ var conex=
     "data":[]
 };
 
-
+var idUnico=
+{
+    "data":[]
+};
 //Carregar local storage
 usuarioCorrente = JSON.parse(sessionStorage.getItem('usuarioCorrente'));
 db_user = JSON.parse(localStorage.getItem('db_user'));
@@ -19,7 +22,11 @@ ids = JSON.parse(localStorage.getItem('db_solic'));
 
 function Usuario()
 {
-    return usuarioCorrente.nome;
+    if(JSON.parse(sessionStorage.getItem('usuarioCorrente'))!=null)
+    {
+        return usuarioCorrente.nome;
+    }
+    return "Você pulou algumas etapas, tipo fazer o login"
 }
 
 function gerarSol(psico)
@@ -64,13 +71,20 @@ function aceitarCox(indice)
 
 function userSolic()
 {
-    
-    return db_user.data[procID(ids.data[0].solicitante)].nome;
+    if(JSON.parse(localStorage.getItem('db_solic')!=null))
+    {
+     return db_user.data[procID(ids.data[0].solicitante)].nome;
+    }
+    return "Sem Solicitações no momento.";
 }
 
 function userSobreSolic()
 {
-    return db_user.data[procID(ids.data[0].solicitante)].sobre;
+    if(JSON.parse(localStorage.getItem('db_solic')!=null))
+    {
+        return db_user.data[procID(ids.data[0].solicitante)].sobre;
+    }
+    return " ";
 }
 
 function conexoes()
@@ -79,7 +93,8 @@ function conexoes()
     if(JSON.parse(localStorage.getItem('conex')) != null)
     {
         conect = JSON.parse(localStorage.getItem('conex')) ; 
-        document.getElementById('conx1').innerText = db_user.data[procID(conect.data[0].paciente)].nome;;
+        document.getElementById('conx1').innerHTML = `<a href="Chat.html">${db_user.data[procID(conect.data[0].paciente)].nome}</a>`;
+        //document.getElementById('conx1').innerText = db_user.data[procID(conect.data[0].paciente)].nome;;
     }
 
     if(JSON.parse(localStorage.getItem('db_solic')) == null)
@@ -87,4 +102,21 @@ function conexoes()
     
 }
 
+function IgorTeAmoS2(botao)
+{
+    let conect;
+    if(JSON.parse(localStorage.getItem('conex')) != null)
+    {
+        conect = JSON.parse(localStorage.getItem('conex')) ; 
+            var id={
+                      "paciente":conect.data[0].paciente
+                     };
+            if(idUnico.data!=null)
+                     idUnico.data.pop();
+
+            idUnico.data.push(id);
+            localStorage.setItem('idUnico',JSON.stringify(idUnico));
+
+    }
+}
 

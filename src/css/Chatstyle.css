@@ -5,19 +5,33 @@ body, img, h1, div, p, section
     margin: 0;
 }
 
+#title-button
+{
+    display: none;
+}
+
+#content
+{
+    position: relative;
+    align-items: center;
+    width: calc(100% - 382px);
+
+    /* background-color: red; */
+}
+
 #chatwindow
 {
-    height: 100vh;
-    width: 800px;
+    
+    height: calc(100vh - 80px);
+    max-width: 600px;
     min-height: 500px;
 
     background-color: #E4E6EC;
     
-    margin: auto; 
+    margin: 40px auto; 
     box-sizing: border-box;
 
     border-radius: 20px;
-    
 }
 
 #chathead
@@ -251,3 +265,30 @@ body, img, h1, div, p, section
     display: none;
 }
 
+
+/* Small */
+@media screen and (max-width: 767px)
+{
+    #content
+    {
+        display: flex;
+        position: relative;
+        align-items: center;
+        width: 100%;
+    }
+
+    #chatwindow
+    {
+        height: 100%;
+        max-width: 720px;
+        min-height: 500px;
+
+        background-color: #E4E6EC;
+        
+        margin: 0; 
+        box-sizing: border-box;
+
+        border-radius: 0;
+        
+    }
+}

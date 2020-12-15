@@ -15,6 +15,11 @@ var conex=
     "data":[]
 };
 
+var idUnico=
+{
+    "data":[]
+};
+
 
 //Carregar local storage
 usuarioCorrente = JSON.parse(sessionStorage.getItem('usuarioCorrente'));
@@ -24,7 +29,11 @@ ids = JSON.parse(localStorage.getItem('db_solic'));
 
 function Usuario()
 {
-    return usuarioCorrente.nome;
+    if(JSON.parse(sessionStorage.getItem('usuarioCorrente'))!=null)
+    {
+        return usuarioCorrente.nome;
+    }
+    return "Você pulou algumas etapas, tipo fazer o login"
 }
 
 function psicosN(idNome)
@@ -122,7 +131,17 @@ function conexoes()
     if(JSON.parse(localStorage.getItem('conex')) != null)
     {
         conect = JSON.parse(localStorage.getItem('conex')) ; 
-        document.getElementById('conx1').innerText = db_psico.data[procID(conect.data[0].psicologo)].nome;;
+        document.getElementById('conx1').innerHTML = `<a href="Chat.html">${db_psico.data[procID(conect.data[0].psicologo)].nome}</a>`;
+       
+     if(conect.data[1]!=null)
+       {
+        document.getElementById('conx2').innerHTML = `<a href="Chat.html">${db_psico.data[procID(conect.data[1].psicologo)].nome}</a>`;
+       }
+       
+     if(conect.data[2]!=null)
+       {
+        document.getElementById('conx3').innerHTML = `<a href="Chat.html">${db_psico.data[procID(conect.data[2].psicologo)].nome}</a>`;
+       }
     }
 
     
@@ -136,4 +155,55 @@ function conexoes()
             document.getElementById(x).innerText = psicosS(x-2);
           }
 
+}
+
+function IgorTeAmoS2(botao)
+{
+    let conect;
+    if(JSON.parse(localStorage.getItem('conex')) != null)
+    {
+        conect = JSON.parse(localStorage.getItem('conex')) ; 
+            var id={
+                      "psicologo":conect.data[0].psicologo
+                     };
+            if(idUnico.data!=null)
+                     idUnico.data.pop();
+
+            idUnico.data.push(id);
+            localStorage.setItem('idUnico',JSON.stringify(idUnico));
+
+        
+
+       
+     if(conect.data[1]!=null)
+       {
+            if(botao==2)
+            {
+                var id={
+                        "psicologo":conect.data[1].psicologo
+                        };
+                 if(idUnico.data!=null)
+                        idUnico.data.pop();
+
+                idUnico.data.push(id);
+                localStorage.setItem('idUnico',JSON.stringify(idUnico));
+            }
+       }
+       
+     if(conect.data[2]!=null)
+       {
+            if(botao==2)
+            {
+                var id={
+                        "psicologo":conect.data[2].psicologo
+                        };
+                if(idUnico.data!=null)
+                        idUnico.data.pop();
+                
+                idUnico.data.push(id);
+                localStorage.setItem('idUnico',JSON.stringify(idUnico));
+            }       
+        }
+        
+    }
 }

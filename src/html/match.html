@@ -24,6 +24,15 @@
       // let num = varPendente();
       document.getElementById('usuario').innerText = Usuario();
 
+      conx1.onclick = () =>{
+        IgorTeAmoS2(1);
+      }
+      conx2.onclick = () =>{
+        IgorTeAmoS2(1);
+      }
+      conx3.onclick = () =>{
+        IgorTeAmoS2(1);
+      }
 
       bt1.onclick = () => {
         let num = varPendente(0);
@@ -69,9 +78,9 @@
             Suas conexões
           </div>
           <ul class="list-group list-group-flush">
-            <li id="conx1" class="list-group-item">Sem conexão</li>
-            <li id="conx2" class="list-group-item">Sem conexão</li>
-            <li id="conx3" class="list-group-item">Sem conexão</li>
+            <li id="conx1" class="list-group-item"></li>
+            <li id="conx2" class="list-group-item"></li>
+            <li id="conx3" class="list-group-item"></li>
           </ul>
         </div>
 
@@ -85,6 +94,9 @@
             <li id="li2" class="list-group-item"></li>
           </ul>
         </div>
+        <div class="row">
+          <a id="a_btn_back" href="Dash_paciente.html"><button type="button" class="btn btn-primary btn_save" id="btn_back">Retornar</button></a>
+      </div>
       </div>
 
       <div class="card box col-sm-12 col-lg-6" style="align-items: center;">

@@ -1,130 +1,3 @@
-var db_usuarios_inicial = 
-{
-    reg:
-    [
-        {
-            id: "1",
-            nome: "Leanne",
-            sobrenome: "Graham",
-            cep: "51346587",
-            anonimato: "Sim",
-            email: "Sincere@april.biz",
-            celular: "1-770-736-8031",
-            sobre: "hildegard.org",
-            valor: "gratuito",
-            senha: "Leanne",
-            photo: "/user_imgs/userphoto-1.jpeg",
-            status: "1",
-            message: "Quem diria que um dia teria novos motivos pra sorrir!"
-        },
-        {
-            id: "2",
-            nome: "Ervin",
-            sobrenome: "Howell",
-            cep: "13468572",
-            anonimato: "Não",
-            email: "Shanna@melissa.tv",
-            celular: "010-692-6593",
-            sobre: "anastasia.net",
-            valor: "gratuito",
-            senha: "Ervin",
-            photo: "/user_imgs/userphoto-2.jpeg",
-            status: "2",
-            message: "Estou o dia inteiro ocupada."
-        },
-        {
-            id: "3",
-            nome: "Clementine",
-            sobrenome: "Bauch",
-            cep: "12345678",
-            anonimato: "Não",
-            email: "Nathan@yesenia.net",
-            celular: "1-463-123-4447",
-            sobre: "ramiro.info",
-            valor: "gratuito",
-            senha: "Clementine",
-            photo: "/user_imgs/userphoto-3.jpeg",
-            status: "3",
-            message: "A espera de um recomeço em minha vida."
-        }
-    ]
-};
-
-
-var db_psicologos_inicial =
-{
-    reg:
-    [
-        {
-            id: "4",
-            nome: "Nicholas",
-            sobrenome: "Runolfsdottir",
-            cep: "12302457",
-            anonimato: "Sim",
-            email: "Sherwood@rosamond.me",
-            celular: "586.493.6943",
-            sobre: "jacynthe.com",
-            sobre_job: "jacynthe.com",
-            valor: "ate 100 reais",
-            senha: "Nicholas",
-            photo: "/user_imgs/userphoto-4.jpeg",
-            status: "1",
-            message: "Psicologo e psicoterapeuta"
-        },
-        {
-            id: "5",
-            nome: "Glenna",
-            sobrenome: "Reichert",
-            cep: "52085674",
-            anonimato: "Sim",
-            email: "Chaim_McDermott@dana.io",
-            celular: "(775)976-6794",
-            sobre: "conrad.com",
-            sobre_job: "conrad.com",
-            valor: "mais de 100 reais",
-            senha: "Glenna",
-            photo: "/user_imgs/userphoto-5.jpeg",
-            status: "2",
-            message: "A sua disposição para poder te ajudar!"
-        },
-        {
-            id: "6",
-            nome: "Clementina",
-            sobrenome: "DuBuque",
-            cep: "21652012",
-            anonimato: "Sim",
-            email: "Rey.Padberg@karina.biz",
-            celular: "024-648-3804",
-            sobre: "ambrose.net",
-            sobre_job: "ambrose.net",
-            valor: "mais de 100 reais",
-            senha: "Clementina",
-            photo: "/user_imgs/userphoto-6.jpeg",
-            status: "3",
-            message: "De segunda a sexta de 8 as 19 horas"
-        }
-    ]
-};
-
-
-var usuariocorrente=
-{
-    id: "1",
-    nome: "Leanne",
-    sobrenome: "Graham",
-    cep: "51346587",
-    anonimato: "Sim",
-    email: "Sincere@april.biz",
-    celular: "1-770-736-8031",
-    sobre: "hildegard.org",
-    valor: "gratuito",
-    senha: "Leanne",
-    photo: "/user_imgs/userphoto-1.jpeg",
-    status: "1",
-    message: "Quem diria que um dia teria novos mo1605878006445tivos pra sorrir!"
-};
-
-
 var db_chatmsg_inicial=
 {
     conversations:
@@ -171,101 +44,65 @@ function Msg(id, ts, txt)
 
 
 // objeto do banco de dados
-var db_userreg = {};//Banco de dados do usuário
-var db_psyreg= {};//Banco de dados do psicólogo
-var db_chatmsg= {};//Banco de dados das mensagens
-var current_user;//usuário logado
+var db
+var db_chatmsg= {conversations: new Array()};//Banco de dados das mensagens
+var user;//usuário logado
 var chating_user;//dados do usuário do chat
-var drop_reference1= [];//referencia das ids no dropdown
-var drop_reference2= [];//referencia das ids no dropdown
 var cv;
 
-/*
-// Se não houver nenhum usuário logado carrega os dados dos db iniciais
-// e inicia o usuário corrente, senão, carrega os dados do armazenamento
-// do browser.
-*/
-function initLoginApp() 
+function getUser()
 {
-    /*localStorage.clear(); //test*/
-    //let timestamp= Date.now();//test
-    //console.log(timestamp);//test
+    user= JSON.parse(sessionStorage.getItem('usuarioCorrente'));
+}
 
-    if(!(sessionStorage.getItem('current_user') && localStorage.getItem('db_userreg')))
+function getChatingUser()
+{
+    let id= JSON.parse(localStorage.getItem('idUnico')).data[0].psicologo;
+    let dbu= "db_user";
+    let dbp= "db_psico";
+
+    chating_user= searchUser(id, dbu);
+
+    if(chating_user== null)
     {
-        /*console.log("Lendo dados!"); //test*/
+        chating_user= searchUser(id, dbp);
+    }
 
-        
-        db_userreg = db_usuarios_inicial;
-        db_psyreg= db_psicologos_inicial;
-        db_chatmsg= db_chatmsg_inicial;
+    if(chating_user== null)
+    {
+        throw new Error("Impossivel carregar o interlocutario");
+    }
+}
 
-        current_user= db_userreg.reg[0];
-        chating_user= db_psyreg.reg[0];
+function searchUser(id, str)
+{
+    let db= JSON.parse(localStorage.getItem(str));
+    let usr= null;
 
-        //console.log(current_user);
-        //console.log(chating_user);
+    $(db.data).each(
+        function(i)
+        {
+            if(id == this.id)
+            {
+                usr= this;
+                return;
+            }
+        }
+    )
+    return usr;
+}
 
-        localStorage.setItem('db_userreg', JSON.stringify(db_userreg));
-        localStorage.setItem('db_psyreg', JSON.stringify(db_psyreg));
-        localStorage.setItem('db_chatmsg', JSON.stringify(db_chatmsg));
-
-        sessionStorage.setItem('current_user', JSON.stringify(current_user));
+function getChatDB()
+{
+    let dbc= 'db_chatmsg';
+    
+    if(localStorage.getItem(dbc))
+    {
+        db_chatmsg= JSON.parse(localStorage.getItem(dbc));
     }
     else
-    {        
-        db_userreg= JSON.parse(localStorage.getItem('db_userreg'));
-        db_psyreg= JSON.parse(localStorage.getItem('db_psyreg'));
-        db_chatmsg= JSON.parse(localStorage.getItem('db_chatmsg'));
-
-        current_user = JSON.parse(sessionStorage.getItem('current_user'));
-        chating_user = db_psyreg.reg[0];
-    }
-};
-
-
-/*
-//  Constroi a interface dos dropdown menus com o nome dos usuários
-*/
-function setDropdownUsers()
-{
-    document.getElementById('users_dropdown-menu1').innerHTML = '';
-    document.getElementById('users_dropdown-menu2').innerHTML = '';
-
-    let aux = 0;//auxiliar para continuar a contagem nos vetores das ids
-
-    for(let i=0; i< db_userreg.reg.length; i++, aux++)
     {
-        document.getElementById('users_dropdown-menu1').innerHTML += 
-        '<a id="user_'+db_userreg.reg[i].id+'" class="dropdown-item" href="#">'+db_userreg.reg[i].nome+'</a>';
-
-        drop_reference1[i]= db_userreg.reg[i].id;// salva as referencias das ids no vetor1
-    }
-
-    for(let i=0; i< db_psyreg.reg.length; i++)
-    {
-        document.getElementById('users_dropdown-menu1').innerHTML +=
-        '<a id="user_'+db_psyreg.reg[i].id+'" class="dropdown-item" href="#">'+db_psyreg.reg[i].nome+'</a>';
-
-        drop_reference1[i+aux]= db_psyreg.reg[i].id;// salva as referencias das ids no vetor1
-    }
-
-    aux= 0;
-
-    for(let i=0; i< db_userreg.reg.length; i++, aux++)
-    {
-        document.getElementById('users_dropdown-menu2').innerHTML += 
-        '<a id="user_'+db_userreg.reg[i].id+'" class="dropdown-item" href="#">'+db_userreg.reg[i].nome+'</a>';
-
-        drop_reference2[i]= db_userreg.reg[i].id;// salva as referencias das ids no vetor2
-    }
-
-    for(let i=0; i< db_psyreg.reg.length; i++)
-    {
-        document.getElementById('users_dropdown-menu2').innerHTML +=
-        '<a id="user_'+db_psyreg.reg[i].id+'" class="dropdown-item" href="#">'+db_psyreg.reg[i].nome+'</a>';
-
-        drop_reference2[i+aux]= db_psyreg.reg[i].id;// salva as referencias das ids no vetor2
+        localStorage.setItem(dbc, JSON.stringify(db_chatmsg));
     }
 }
 
@@ -278,7 +115,7 @@ function setChatWindow()
 {
     clearMsgBox();
 
-    if(current_user.id != chating_user.id)
+    if(user.id != chating_user.id)
     {
         setUserPanel();
         assignChatData();
@@ -318,37 +155,12 @@ function setDropsEvent()
     });
 }
 
-
-/*
-// Busca o usuário no db de acordo com o id armazenado em um index do 
-// vetor-referência
-*/
-function getUser(index)
-{
-    let user= null;
-    
-    db_userreg.reg.forEach((item) =>
-    {
-        if(item.id == drop_reference1[index])
-        user= item;    
-    });
-
-    db_psyreg.reg.forEach((item) =>
-    {
-        if(item.id == drop_reference2[index])
-        user= item;    
-    });
-
-    return user;
-}
-
-
 function setUserPanel()
 {
     document.getElementById('card-friendname').innerHTML= 
     `${chating_user.nome} ${chating_user.sobrenome}`;
-    document.getElementById('card-photoframe').innerHTML= 
-    `<img id="friend-photo" src="${chating_user.photo}" alt="Foto do amigo">`;
+    /* document.getElementById('card-photoframe').innerHTML= 
+    `<img id="friend-photo" src="${chating_user.photo}" alt="Foto do amigo">`; */
 }
 
 
@@ -364,7 +176,7 @@ function assignChatData()
 
 function getCv()
 {
-    let id1= current_user.id;
+    let id1= user.id;
     let id2= chating_user.id;
     cv= null;
 
@@ -377,10 +189,11 @@ function getCv()
                 cv= item;
             }
         });
+    
 
         if(cv== null)//Cria uma nova conversa
         {
-            db_chatmsg.conversations.push(new Cv(current_user.id, chating_user.id,[]));
+            db_chatmsg.conversations.push(new Cv(user.id, chating_user.id,[]));
             cv= db_chatmsg.conversations[db_chatmsg.conversations.length-1];
         }
     }
@@ -394,7 +207,7 @@ function clearMsgBox()
 
 function setMsgBox()
 {
-    let id1= current_user.id;
+    let id1= user.id;
     let id2= chating_user.id;
 
     clearMsgBox();
@@ -445,27 +258,6 @@ function setDate(timestamp)
     return `${hour}:${minute}`
 }
 
-function setInputEvent()
-{
-    let txt= '';
-
-    document.getElementById('btn-sendmsg').onclick= () =>
-    {
-        txt= writingbox.value;
-        
-        if(cv!= null)
-        {
-            /* console.log(cv); */
-            cv.msgs.push(new Msg(current_user.id, Date.now(), txt));
-            localStorage.setItem('db_chatmsg', JSON.stringify(db_chatmsg));
-        }
-
-        writingbox.value= '';
-
-        setMsgBox();
-    }
-}
-
 function setUserPanelError()
 {
     document.getElementById('card-photoframe').innerHTML= '<i id="cardicon-photoframe" class="fas fa-heart-broken fa-3x"></i>';
@@ -495,16 +287,29 @@ function setMsgBoxError(i)
         document.getElementById('message-box').innerHTML+= str1;
         //throw new Error(str3);
     }
-    
 }
 
-//Chat main
-onload= () =>
+document.getElementById('btn-sendmsg').onclick= () =>
 {
-    setDropdownUsers();
-    setDropsEvent();
-    setInputEvent();
+    let txt= writingbox.value;
+    
+    if(cv!= null)
+    {
+        /* console.log(cv); */
+        cv.msgs.push(new Msg(user.id, Date.now(), txt));
+        localStorage.setItem('db_chatmsg', JSON.stringify(db_chatmsg));
+    }
+
+    writingbox.value= '';
+
+    setMsgBox();
 }
 
+getUser();
+getChatingUser();
+getChatDB();
 
-initLoginApp();
+window.onload= function(){
+    setUserPanel();
+    setChatWindow();
+}
